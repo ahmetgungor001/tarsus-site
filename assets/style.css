@@ -58,7 +58,7 @@ p{margin:0 0 1em}
 .btn-block{width:100%}
 /* mobil menü */
 .nav-right .btn-wa{display:none}
-@media (max-width:1200px){
+@media (max-width:1300px){
 .nav-toggle{display:inline-flex}
 .menu{display:none;position:absolute;top:72px;left:-20px;right:-20px;flex-direction:column;align-items:stretch;gap:0;background:#fff;padding:6px 20px 16px;border-bottom:1px solid var(--line);box-shadow:0 20px 40px -12px rgba(10,13,20,.16)}
 .menu.open{display:flex}
@@ -323,3 +323,6 @@ h3{font-size:1.25rem}
 @media (max-width:767px){body{font-size:16.5px}.process div{border-bottom:0;padding:16px 0 0}.cta{padding:28px 0 0}}
 .nav{gap:28px}
 .menu a{padding:8px 9px}
+.logo{flex:none}
+.menu a{font-size:.95rem}
+@media (max-width:1300px){.menu a{font-size:1rem}}
