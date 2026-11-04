@@ -52,15 +52,79 @@
 
 (function(){var f=document.getElementById('wa-form');if(f){f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);var hz=d.getAll('hizmet').join(', ');var parts=['Merhaba, Güngör Digital ile keşif görüşmesi talep ediyorum.'];
 if(d.get('ad'))parts.push('Ad Soyad: '+d.get('ad'));if(d.get('telefon'))parts.push('Telefon: '+d.get('telefon'));if(d.get('sirket'))parts.push('Şirket: '+d.get('sirket'));if(d.get('eposta'))parts.push('E-posta: '+d.get('eposta'));if(hz)parts.push('İlgilenilen hizmetler: '+hz);if(d.get('zaman'))parts.push('Zamanlama: '+d.get('zaman'));if(d.get('ozet'))parts.push('Proje özeti: '+d.get('ozet'));
-window.open('https://wa.me/905444518759?text='+encodeURIComponent(parts.join('\n')),'_blank','noopener');});}})();/* Çerez onayı */
-(function(){var K='gd_cookie_consent';
-function get(){try{return localStorage.getItem(K)}catch(e){return null}}
-function set(v){try{localStorage.setItem(K,v)}catch(e){}}
-window.gdConsent=function(){return get()==='accepted'};
-function hide(b){if(b&&b.parentNode)b.parentNode.removeChild(b);document.body.classList.remove('has-cc')}
-function show(){if(document.getElementById('cc-banner'))return;var b=document.createElement('div');b.id='cc-banner';b.className='cc';b.setAttribute('role','dialog');b.setAttribute('aria-live','polite');b.setAttribute('aria-label','Çerez tercihleri');
-b.innerHTML='<p><strong>Çerez tercihiniz</strong>Bu sitede şu an analiz veya reklam çerezi kullanılmıyor. İleride eklenirse yalnızca onay verirseniz çalışır. Ayrıntılar için <a href="/cerez-politikasi.html">Çerez Politikası</a>.</p><div class="cc-btns"><button type="button" class="btn btn-outline btn-sm" data-cc="rejected">Reddet</button><button type="button" class="btn btn-outline btn-sm" data-cc="accepted">Kabul et</button></div>';
-b.addEventListener('click',function(e){var v=e.target.getAttribute&&e.target.getAttribute('data-cc');if(v){set(v);hide(b)}});
-document.body.appendChild(b);document.body.classList.add('has-cc')}
-function init(){if(!get())show();document.querySelectorAll('[data-cookie-settings]').forEach(function(x){x.addEventListener('click',function(e){e.preventDefault();show()})})}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
+window.open('https://wa.me/905444518759?text='+encodeURIComponent(parts.join('\n')),'_blank','noopener');});}})();
+/* Çerez tercihi ve Google Tag Manager */
+(function () {
+  const consentKey = 'gd_cookie_consent_gtm_v1';
+  const tagId = 'GTM-NLWD7CCN';
+  let preference = null;
+  try {
+    preference = localStorage.getItem(consentKey);
+    if (!preference && localStorage.getItem('gd_cookie_consent') === 'rejected') preference = 'rejected';
+  } catch {}
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+
+  function signalConsent(command, value) {
+    window.gtag('consent', command, {
+      analytics_storage: value,
+      ad_storage: value,
+      ad_user_data: value,
+      ad_personalization: value
+    });
+  }
+  signalConsent('default', 'denied');
+  window.gtag('js', new Date());
+  window.gdConsent = () => preference === 'accepted';
+
+  let tagLoaded = false;
+  function loadTagManager() {
+    if (tagLoaded || !window.gdConsent()) return;
+    signalConsent('update', 'granted');
+    window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + tagId;
+    tagLoaded = true;
+    document.head.appendChild(script);
+  }
+
+  function showPreferences() {
+    if (document.getElementById('cc-banner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'cc-banner';
+    banner.className = 'cc';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-live', 'polite');
+    banner.setAttribute('aria-label', 'Çerez tercihleri');
+    banner.innerHTML = '<p><strong>Çerez tercihiniz</strong>Onay verirseniz analiz ve reklam etiketlerini yönetmek için Google Tag Manager yüklenir. Ayrıntılar için <a href="/cerez-politikasi.html">Çerez Politikası</a>.</p><div class="cc-btns"><button type="button" class="btn btn-outline btn-sm" data-cc="rejected">Reddet</button><button type="button" class="btn btn-outline btn-sm" data-cc="accepted">Kabul et</button></div>';
+    banner.addEventListener('click', event => {
+      const value = event.target.closest('button[data-cc]')?.dataset.cc;
+      if (!value) return;
+      preference = value;
+      try {
+        localStorage.setItem(consentKey, value);
+      } catch {}
+      banner.remove();
+      document.body.classList.remove('has-cc');
+      if (window.gdConsent()) {
+        loadTagManager();
+      } else if (tagLoaded) {
+        signalConsent('update', 'denied');
+        window.location.reload();
+      }
+    });
+    document.body.appendChild(banner);
+    document.body.classList.add('has-cc');
+  }
+
+  if (window.gdConsent()) loadTagManager();
+  if (!preference) showPreferences();
+  document.querySelectorAll('[data-cookie-settings]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      showPreferences();
+    });
+  });
+})();
