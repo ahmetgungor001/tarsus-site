@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 544 280">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#211135"/><stop offset="1" stop-color="#53347a"/></linearGradient>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" fill="none" stroke="#ae90d2" opacity=".23"/></pattern>
+  </defs>
+  <rect width="544" height="280" rx="13" fill="url(#bg)"/>
+  <rect x="18" y="18" width="508" height="244" rx="6" fill="url(#grid)" stroke="#ad8bd2" stroke-opacity=".5"/>
+  <g fill="#291940" stroke="#bf9ee2" stroke-width="2">
+    <rect x="55" y="103" width="94" height="72" rx="12"/>
+    <rect x="207" y="76" width="130" height="126" rx="14"/>
+    <rect x="395" y="103" width="94" height="72" rx="12"/>
+  </g>
+  <g fill="none" stroke="#8af0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="75" y="123" width="54" height="33" rx="4"/><path d="m76 125 26 17 26-17"/>
+    <path d="M150 139h55m-12-8 9 8-9 8m145-8h55m-12-8 9 8-9 8"/>
+    <path d="M243 113h58v53h-58zM252 107v-8m13 8v-8m14 8v-8m13 8v-8m-40 73v8m13-8v8m14-8v8m13-8v8"/>
+    <path d="m252 141 11-11 11 15 15-17"/>
+    <path d="M422 118h28l13 12v28h-41zM450 119v12h12m-31 12 6 7 13-13"/>
+  </g>
+</svg>
