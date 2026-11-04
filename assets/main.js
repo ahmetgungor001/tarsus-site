@@ -56,7 +56,9 @@ window.open('https://wa.me/905444518759?text='+encodeURIComponent(parts.join('\n
 /* Çerez tercihi ve Google Tag Manager */
 (function () {
   const consentKey = 'gd_cookie_consent_gtm_v1';
-  const tagId = 'GTM-NLWD7CCN';
+  const template = document.getElementById('gd-gtm-source');
+  const tagSource = template?.content.querySelector('script[src]')?.src
+    || 'https://www.googletagmanager.com/gtm.js?id=GTM-NLWD7CCN';
   let preference = null;
   try {
     preference = localStorage.getItem(consentKey);
@@ -64,7 +66,8 @@ window.open('https://wa.me/905444518759?text='+encodeURIComponent(parts.join('\n
   } catch {}
 
   window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  const needsInitialization = typeof window.gtag !== 'function';
+  if (needsInitialization) window.gtag = function () { window.dataLayer.push(arguments); };
 
   function signalConsent(command, value) {
     window.gtag('consent', command, {
@@ -75,7 +78,7 @@ window.open('https://wa.me/905444518759?text='+encodeURIComponent(parts.join('\n
     });
   }
   signalConsent('default', 'denied');
-  window.gtag('js', new Date());
+  if (needsInitialization) window.gtag('js', new Date());
   window.gdConsent = () => preference === 'accepted';
 
   let tagLoaded = false;
@@ -85,7 +88,7 @@ window.open('https://wa.me/905444518759?text='+encodeURIComponent(parts.join('\n
     window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
     const script = document.createElement('script');
     script.async = true;
-    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + tagId;
+    script.src = tagSource;
     tagLoaded = true;
     document.head.appendChild(script);
   }
